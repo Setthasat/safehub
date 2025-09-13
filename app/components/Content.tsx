@@ -42,39 +42,15 @@ function Content() {
         </h2>
 
         {/* Grid Layout */}
-        {/* Grid Layout */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {/* Card 1: 2/3 */}
-          <div className="sm:col-span-2 bg-[#EFFFFB] rounded-2xl p-6 flex flex-col justify-center items-center shadow-md hover:shadow-xl transition">
-            <h3 className="text-lg font-bold mb-2">{facts[0]?.title}</h3>
-            <p className="text-sm text-gray-700 text-center">
-              {facts[0]?.description}
-            </p>
-          </div>
-
-          {/* Card 2: 1/3 */}
-          <div className="bg-[#EFFFFB] rounded-2xl p-6 flex flex-col justify-center items-center shadow-md hover:shadow-xl transition">
-            <h3 className="text-lg font-bold mb-2">{facts[1]?.title}</h3>
-            <p className="text-sm text-gray-700 text-center">
-              {facts[1]?.description}
-            </p>
-          </div>
-
-          {/* Card 3: 1/3 */}
-          <div className="bg-[#EFFFFB] rounded-2xl p-6 flex flex-col justify-center items-center shadow-md hover:shadow-xl transition">
-            <h3 className="text-lg font-bold mb-2">{facts[2]?.title}</h3>
-            <p className="text-sm text-gray-700 text-center">
-              {facts[2]?.description}
-            </p>
-          </div>
-
-          {/* Card 4: 2/3 */}
-          <div className="sm:col-span-2 bg-[#EFFFFB] rounded-2xl p-6 flex flex-col justify-center items-center shadow-md hover:shadow-xl transition">
-            <h3 className="text-lg font-bold mb-2">{facts[3]?.title}</h3>
-            <p className="text-sm text-gray-700 text-center">
-              {facts[3]?.description}
-            </p>
-          </div>
+          {/* 1 */}
+          <Card fact={facts[0]} className="sm:col-span-2" />
+          {/* 2 */}
+          <Card fact={facts[1]} />
+          {/* 3 */}
+          <Card fact={facts[2]} />
+          {/* 4 */}
+          <Card fact={facts[3]} className="sm:col-span-2" />
         </div>
       </div>
     </section>
@@ -82,3 +58,52 @@ function Content() {
 }
 
 export default Content;
+
+// ✅ Card Component
+function Card({
+  fact,
+  className = "",
+}: {
+  fact?: (typeof data)[0];
+  className?: string;
+}) {
+  if (!fact) return null;
+
+  return (
+    <div
+      className={`bg-[#EFFFFB] rounded-2xl flex flex-col shadow-md hover:shadow-xl transition overflow-hidden h-full relative ${className}`}
+    >
+      {/* Image with tags on top-right */}
+      <div className="relative w-full h-48">
+        <img
+          src={fact.image}
+          alt={fact.title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute top-2 right-2 flex flex-wrap gap-2">
+          {fact.tags?.map((tag, i) => (
+            <span
+              key={i}
+              className="px-2 py-1 text-xs font-semibold bg-black/70 text-white rounded-full"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-6 flex  justify-between gap-3 flex-grow">
+        <h3 className="text-lg font-bold">{fact.title}</h3>
+        <a
+          href={fact.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-red-500 text-white text-xs px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition"
+        >
+          Visit
+        </a>
+      </div>
+    </div>
+  );
+}

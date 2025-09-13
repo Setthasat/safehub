@@ -1,5 +1,5 @@
 import React from "react";
-import HandCursor from "../pictures/HandCursor.png";
+import HandCursor from "../../public/HandCursor.png";
 import { ChevronDown } from "lucide-react";
 
 function Hero() {
