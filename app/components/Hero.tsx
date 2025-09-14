@@ -38,6 +38,7 @@ function Hero() {
 
         {/* NOW button */}
         <button
+          title="Random Fact"
           onClick={getRandomLink}
           className="flex justify-center items-center p-2 py-3 w-1/4 bg-[#EFFFFB] rounded-full hover:bg-[#d9fff2] transition"
         >

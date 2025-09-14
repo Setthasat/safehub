@@ -1,10 +1,10 @@
 export const data = [
   {
     id: 1,
-    title: "Fact 1",
-    image: "/example.png",
-    link: "https://youtu.be/IpFX2vq8HKw?si=Ab-YzTN1OEzcq_cd",
-    tags: ["1", "2", "3"],
+    title: "Chernobyl disaster",
+    image: "/Chernobyl.png",
+    link: "https://chernobyl-eta.vercel.app/",
+    tags: ["Disaster", "Historical", "Educational"],
   },
   {
     id: 2,
