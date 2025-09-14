@@ -23,7 +23,7 @@ function Content() {
           <input
             type="text"
             placeholder="SEARCH FORM TAGS OR NAME"
-            className="flex-1 p-4 bg-transparent focus:outline-none text-black font-bold"
+            className="flex-1 p-8 bg-transparent focus:outline-none text-black font-bold"
           />
           <button
             type="submit"
@@ -93,13 +93,13 @@ function Card({
       </div>
 
       {/* Content */}
-      <div className="p-6 flex  justify-between gap-3 flex-grow">
+      <div className="p-4 flex  justify-between gap-3 flex-grow">
         <h3 className="text-lg font-bold">{fact.title}</h3>
         <a
           href={fact.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-red-500 text-white text-xs px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition"
+          className="bg-red-500 text-white text-xs px-6 py-3 rounded-full font-semibold hover:bg-red-600 transition"
         >
           Visit
         </a>
