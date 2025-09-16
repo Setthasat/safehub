@@ -8,9 +8,9 @@ export const data = [
   },
   {
     id: 2,
-    title: "Fact 2",
-    image: "/example.png",
-    link: "https://youtu.be/98zHKN-xSHk?si=xUkuP2CnhfFkJmG4",
+    title: "Pirarucu",
+    image: "/Pirarucu.png",
+    link: "https://pirarucu.vercel.app/",
     tags: ["1", "2", "3"],
   },
   {

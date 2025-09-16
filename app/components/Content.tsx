@@ -198,7 +198,7 @@ function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [searchResults, setSearchResults] = useState<Fact[]>([]);
   const [showEmailForm, setShowEmailForm] = useState<boolean>(false);
-  const debouncedSearchTerm = useDebounce<string>(searchTerm, 300);
+  const debouncedSearchTerm = useDebounce<string>(searchTerm, 100);
 
   useEffect(() => {
     if (debouncedSearchTerm.trim() === "") {
