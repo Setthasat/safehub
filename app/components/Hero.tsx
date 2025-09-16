@@ -33,7 +33,7 @@ function Hero() {
 
       <div className="flex justify-between items-center gap-4 text-[10px] sm:text-[12px] md:text-xl lg:text-2xl xl:text-3xl font-bold w-full relative">
         <p className="flex justify-center items-center p-2 py-3 bg-[#50D890] text-[#EFFFFB] rounded-full w-3/4">
-          EXPLORE 100+ FUN FACTS
+          EXPLORE {data.length} FUN FACTS
         </p>
 
         {/* NOW button */}
