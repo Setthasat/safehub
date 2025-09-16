@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Search, X, Mail, Send } from "lucide-react";
+import { Search, X, Mail, Send, MousePointer } from "lucide-react";
 
 // Types
 interface Fact {
@@ -9,6 +9,7 @@ interface Fact {
   image: string;
   link: string;
   tags: string[];
+  description: string;
 }
 
 import { data } from "../data/data";
@@ -56,8 +57,9 @@ function EmailRequest({ searchTerm, onEmailSent }: EmailRequestProps) {
 
   useEffect(() => {
     // Load EmailJS script
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+    const script = document.createElement("script");
+    script.src =
+      "https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js";
     script.onload = () => {
       if (window.emailjs) {
         window.emailjs.init("_-fqU6ZNO0hlRtuXW");
@@ -72,7 +74,7 @@ function EmailRequest({ searchTerm, onEmailSent }: EmailRequestProps) {
 
   const sendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email || !topic) {
       setStatus("Please fill in all required fields");
       return;
@@ -95,7 +97,7 @@ function EmailRequest({ searchTerm, onEmailSent }: EmailRequestProps) {
           "template_qdk0755",
           templateParams
         );
-        
+
         console.log("Email sent successfully:", result);
         setStatus("Request sent successfully! We'll get back to you soon.");
         setEmail("");
@@ -113,7 +115,10 @@ function EmailRequest({ searchTerm, onEmailSent }: EmailRequestProps) {
       if (typeof error === "object" && error !== null) {
         if ("text" in error && typeof (error as any).text === "string") {
           errorMessage = (error as any).text;
-        } else if ("message" in error && typeof (error as any).message === "string") {
+        } else if (
+          "message" in error &&
+          typeof (error as any).message === "string"
+        ) {
           errorMessage = (error as any).message;
         }
       }
@@ -132,7 +137,7 @@ function EmailRequest({ searchTerm, onEmailSent }: EmailRequestProps) {
       <p className="text-sm text-gray-600 mb-4">
         Tell us what topic you'd like to see, and we'll consider adding it!
       </p>
-      
+
       <form onSubmit={sendEmail} className="space-y-4">
         <div>
           <input
@@ -144,7 +149,7 @@ function EmailRequest({ searchTerm, onEmailSent }: EmailRequestProps) {
             required
           />
         </div>
-        
+
         <div>
           <input
             type="text"
@@ -155,7 +160,7 @@ function EmailRequest({ searchTerm, onEmailSent }: EmailRequestProps) {
             required
           />
         </div>
-        
+
         <div>
           <textarea
             value={message}
@@ -165,7 +170,7 @@ function EmailRequest({ searchTerm, onEmailSent }: EmailRequestProps) {
             className="w-full p-3 border-2 border-[#50D890] rounded-lg focus:outline-none focus:border-black text-black resize-none"
           />
         </div>
-        
+
         <button
           type="submit"
           disabled={isLoading}
@@ -183,9 +188,15 @@ function EmailRequest({ searchTerm, onEmailSent }: EmailRequestProps) {
             </>
           )}
         </button>
-        
+
         {status && (
-          <p className={`text-sm ${status.includes('successfully') ? 'text-green-600' : 'text-red-600'}`}>
+          <p
+            className={`text-sm ${
+              status.includes("successfully")
+                ? "text-green-600"
+                : "text-red-600"
+            }`}
+          >
             {status}
           </p>
         )}
@@ -207,16 +218,25 @@ function SearchModal({ isOpen, onClose }: SearchModalProps) {
       return;
     }
 
-    const filtered = data.filter((fact: Fact) => {
-      const titleMatch = fact.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
-      const tagMatch = fact.tags.some((tag: string) => 
-        tag.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
-      );
-      return titleMatch || tagMatch;
-    });
+    const filtered = data
+      .filter((fact) => {
+        const titleMatch = fact.title
+          .toLowerCase()
+          .includes(debouncedSearchTerm.toLowerCase());
+        const tagMatch = fact.tags.some((tag: string) =>
+          tag.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+        );
+        return titleMatch || tagMatch;
+      })
+      .map((fact) => ({
+        ...fact,
+        description: fact.description ?? "",
+      }));
 
     setSearchResults(filtered);
-    setShowEmailForm(filtered.length === 0 && debouncedSearchTerm.trim() !== "");
+    setShowEmailForm(
+      filtered.length === 0 && debouncedSearchTerm.trim() !== ""
+    );
   }, [debouncedSearchTerm]);
 
   const handleClose = (): void => {
@@ -246,13 +266,15 @@ function SearchModal({ isOpen, onClose }: SearchModalProps) {
               <X className="w-6 h-6" />
             </button>
           </div>
-          
+
           {/* Search Input */}
           <div className="relative">
             <input
               type="text"
               value={searchTerm}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearchTerm(e.target.value)
+              }
               placeholder="Search by name or tags..."
               className="w-full p-4 pr-12 border-2 border-gray-300 rounded-full focus:outline-none focus:border-[#50D890] text-gray-800"
               autoFocus
@@ -271,15 +293,26 @@ function SearchModal({ isOpen, onClose }: SearchModalProps) {
           ) : showEmailForm ? (
             <div className="space-y-6">
               <div className="text-center text-gray-500 py-4">
-                <p className="text-lg">No facts found matching "{searchTerm}"</p>
-                <p className="text-sm mt-2">But we'd love to help you find what you're looking for!</p>
+                <p className="text-lg">
+                  No facts found matching "{searchTerm}"
+                </p>
+                <p className="text-sm mt-2">
+                  But we'd love to help you find what you're looking for!
+                </p>
               </div>
-              <EmailRequest searchTerm={searchTerm} onEmailSent={handleEmailSent} />
+              <EmailRequest
+                searchTerm={searchTerm}
+                onEmailSent={handleEmailSent}
+              />
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {searchResults.map((fact: Fact) => (
-                <SearchResultCard key={fact.id} fact={fact} onClose={handleClose} />
+                <SearchResultCard
+                  key={fact.id}
+                  fact={fact}
+                  onClose={handleClose}
+                />
               ))}
             </div>
           )}
@@ -296,9 +329,14 @@ interface SearchResultCardProps {
 
 function SearchResultCard({ fact, onClose }: SearchResultCardProps) {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+    <a
+      href={fact.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow  hover:scale-[1.02] "
+    >
       {/* Image with tags */}
-      <div className="relative w-full h-40">
+      <div className="relative w-full h-52">
         <img
           src={fact.image}
           alt={fact.title}
@@ -314,22 +352,28 @@ function SearchResultCard({ fact, onClose }: SearchResultCardProps) {
             </span>
           ))}
         </div>
+        <div className="absolute bottom-0 right-0 p-4">
+          <a
+            href={fact.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-black/50 p-2 rounded-md text-white flex justify-center items-center gap-2 w-auto"
+          >
+            Learn more <MousePointer size={12} />
+          </a>
+        </div>
       </div>
 
       {/* Content */}
       <div className="p-4 flex justify-between items-center gap-3">
-        <h3 className="text-lg font-bold text-gray-800 flex-1">{fact.title}</h3>
-        <a
-          href={fact.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={onClose}
-          className="bg-red-500 text-white text-xs px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition whitespace-nowrap"
-        >
-          Visit
-        </a>
+        <div>
+          <h3 className="text-lg font-bold">{fact.title}</h3>
+          <p className="text-sm text-gray-500 overflow-x-auto">
+            {fact.description}
+          </p>
+        </div>
       </div>
-    </div>
+    </a>
   );
 }
 
@@ -342,10 +386,13 @@ function Card({ fact, className = "" }: CardProps) {
   if (!fact) return null;
 
   return (
-    <div
-      className={`bg-[#EFFFFB] rounded-2xl flex flex-col shadow-md hover:shadow-xl transition overflow-hidden h-full relative ${className}`}
+    <a
+      href={fact.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`bg-[#EFFFFB] rounded-2xl flex flex-col shadow-md hover:shadow-xl transition overflow-hidden h-full relative ${className} cursor-pointer hover:scale-[1.02]`}
     >
-      <div className="relative w-full h-48">
+      <div className="relative w-full h-52">
         <img
           src={fact.image}
           alt={fact.title}
@@ -361,21 +408,28 @@ function Card({ fact, className = "" }: CardProps) {
             </span>
           ))}
         </div>
+        <div className="absolute bottom-0 right-0 p-4">
+          <a
+            href={fact.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-black/50 p-2 rounded-md text-white flex justify-center items-center gap-2 w-auto"
+          >
+            Learn more <MousePointer size={12} />
+          </a>
+        </div>
       </div>
 
       {/* Content */}
-      <div className="p-4 flex justify-between gap-3 flex-grow">
-        <h3 className="text-lg font-bold">{fact.title}</h3>
-        <a
-          href={fact.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-red-500 text-white text-xs px-6 py-3 rounded-full font-semibold hover:bg-red-600 transition"
-        >
-          Visit
-        </a>
+      <div className="p-6 flex justify-between gap-3 flex-grow">
+        <div>
+          <h3 className="text-lg font-bold">{fact.title}</h3>
+          <p className="text-sm text-gray-500 overflow-x-auto">
+            {fact.description}
+          </p>
+        </div>
       </div>
-    </div>
+    </a>
   );
 }
 
@@ -385,7 +439,11 @@ function Content() {
 
   useEffect(() => {
     const shuffled = [...data].sort(() => Math.random() - 0.5);
-    setFacts(shuffled.slice(0, 4));
+    const normalized = shuffled.map((fact) => ({
+      ...fact,
+      description: fact.description ?? "",
+    }));
+    setFacts(normalized.slice(0, 4));
   }, []);
 
   return (
@@ -431,9 +489,9 @@ function Content() {
       </section>
 
       {/* Search Modal */}
-      <SearchModal 
-        isOpen={isSearchOpen} 
-        onClose={() => setIsSearchOpen(false)} 
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
       />
     </>
   );
