@@ -11,7 +11,7 @@ export const data = [
     title: "Pirarucu",
     image: "/Pirarucu.png",
     link: "https://pirarucu.vercel.app/",
-    tags: ["1", "2", "3"],
+    tags: ["Animal", "Nature", "Fish"],
   },
   {
     id: 3,
