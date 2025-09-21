@@ -20,14 +20,16 @@ export const data = [
     title: "Oxygen Depletion Timeline",
     image: "./Earth.png",
     link: "https://oxygen-mu.vercel.app/",
-    description: "A timeline showcasing the depletion of oxygen in the Earth's atmosphere.",
+    description:
+      "A timeline showcasing the depletion of oxygen in the Earth's atmosphere.",
     tags: ["Earth", "Disaster", "Nature"],
   },
   {
     id: 4,
-    title: "Fact 4",
-    image: "/example.png",
-    link: "https://youtu.be/37J5w1lk-jI?si=zBehGDGnGERqGVIH",
-    tags: ["1", "2", "3"],
+    title: "Olympic History",
+    image: "/Olympic.png",
+    link: "https://olympic-eta.vercel.app/",
+    description: "Explore a History of Olympic",
+    tags: ["Sport", "Event"],
   },
 ];
