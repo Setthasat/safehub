@@ -32,4 +32,12 @@ export const data = [
     description: "Explore a History of Olympic",
     tags: ["Sport", "Event"],
   },
+    {
+    id: 5,
+    title: "April Fool's Day",
+    image: "/April.png",
+    link: "https://april-fool-s-day.vercel.app/",
+    description: "Know more about April Fool's Day",
+    tags: ["Funny", "Event", "Joke"],
+  },
 ];
