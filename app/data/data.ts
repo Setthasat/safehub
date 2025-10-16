@@ -42,7 +42,7 @@ export const data = [
   },
   {
     id: 5,
-    title: "AK origin",
+    title: "The birth of AK",
     image: "/AK.jpeg",
     link: "https://ak-five-gray.vercel.app/",
     description: "A simple design that reshaped modern weapon history.",
